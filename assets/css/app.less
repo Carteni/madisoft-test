@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,500');
+@import '~bootstrap/less/bootstrap';
+@import '~font-awesome/less/font-awesome';
+@import "mixins";
+@import "nomore-tables";
+
+// the ~ allows you to reference things in node_modules
+@icon-font-path: "~bootstrap/fonts/";
+// set if you're also including font-awesome
+@fa-font-path: "~font-awesome/fonts";
+
+* {
+  outline: 0 !important;
+}
+
+html {
+  .define-font-size();
+  touch-action: manipulation;
+}
+
+body {
+  font-size: inherit;
+  font-family: "Rubik", sans-serif;
+  font-weight: 300;
+  background-color: #edf1f5;
+  padding-top: 70px;
+  line-height: 18px;
+  color: #313131
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-size: 2.0rem;
+}
+
+h4 {
+  font-size: 1.75rem;
+}
+
+h5 {
+  font-size: 1.5rem;
+}
+
+h6 {
+  font-size: 1.25rem;
+}
+
+label {
+  font-weight: 500;
+}
+
+/**************** Styles *****************/
+
+.content {
+  background-color: rgb(255, 255, 255);
+}
+
+.center {
+  margin: 0 auto;
+}
+
+.m-r-5 {
+  margin-right: 5px !important;
+}
+
+.b-none {
+  border: 0 !important;
+}
+
+.danger-text {
+  color: @alert-danger-text;
+  font-weight: 500;
+}
+
+.fixedPosition {
+  overflow: hidden;
+}
+
+.transparent {
+  background: none !important;
+  border: none !important;
+}
+
+/**************** Alert *****************/
+
+.alert {
+  text-align: center;
+  font-weight: 500;
+  border-radius: 0;
+  border: none;
+}
+
+.alert.alert-danger a {
+  .color(@alert-danger-text);
+  font-weight: 300;
+  border-bottom-color: @alert-danger-text;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.alert.alert-danger a:hover,
+.alert.alert-danger a:focus {
+  border-bottom-color: transparent;
+}
+
+.close {
+  text-shadow: none;
+  opacity: 0.5;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+}
+
+/**************** Panels *****************/
+
+.panel {
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.panel .panel-heading {
+  border-radius: 0;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 25px 20px;
+}
+
+/**************** Buttons *****************/
+
+.btn {
+  font-weight: 300;
+}
+
+.btn-info {
+  background: #41b3f9;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.428571429;
+
+}
+
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  border-radius: 25px;
+  font-size: 18px;
+  line-height: 1.33;
+}
+
+.btn-info.btn-outline {
+  color: #41b3f9;
+  background-color: transparent;
+  -webkit-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+
+  &:hover {
+    color: #fff;
+    background: #41b3f9;
+  }
+}
+
+.btn-info.btn-outline.btn-alert {
+  color: @alert-danger-text;
+  border-color: @alert-danger-text;
+
+  &:hover {
+    color: #fff;
+    background: @alert-danger-text;
+  }
+}
+
+.toolbar {
+  padding: 25px 20px;
+
+  .form-control {
+    display: inline-block;
+    width: auto;
+  }
+}
+
+.form-control {
+  background-color: #fff;
+  border: 1px solid #e4e7ea;
+  border-radius: 0;
+  box-shadow: 4px;
+  color: #565656;
+  height: 38px;
+  max-width: 100%;
+  padding: 7px 12px;
+  transition: all 300ms linear 0s;
+}
+
+@media (min-width: @tablet-sm-min) {
+  .add-new-mark, .remove-mark-form {
+    position: relative;
+    top: 42px;
+  }
+}
+
+.mark-entity .mark-date {
+  background-color: #f7fafc;
+  padding: 8px 20px;
+  margin-bottom: 8px;
+  color: #666;
+  font-weight: 500;
+}

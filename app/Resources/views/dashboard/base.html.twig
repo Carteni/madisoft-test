@@ -1,0 +1,35 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('app_dashboard_home') }}">{{ "app.title"|trans|upper }}</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="{{ app.request.attributes.get('_route') == 'app_dashboard_home' ? 'active' : '' }}"><a href="{{ path('app_dashboard_home') }}">{{ "app.students_list"|trans }}</a></li>
+                    <li class="{{ app.request.attributes.get('_route') == 'app_dashboard_summary' ? 'active' : '' }}"><a href="{{ path('app_dashboard_summary') }}">{{ "app.avg_list"|trans }}</a></li>
+                    <li class="{{ app.request.attributes.get('_route') == 'app_dashboard_new_student' ? 'active' : '' }}"><a href="{{ path('app_dashboard_student_new') }}">{{ "app.new_student"|trans }}</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="content">{% block content %}{% endblock %}</div>
+    </div> <!-- /container -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ preload(asset('build/js/main.js')) }}"></script>
+{% endblock %}

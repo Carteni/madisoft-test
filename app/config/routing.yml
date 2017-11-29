@@ -1,0 +1,7 @@
+app_home:
+    path: /
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: app_dashboard_home }
+
+app_dashboard:
+    resource: "dashboard_routing.yml"
+    prefix: /dashboard

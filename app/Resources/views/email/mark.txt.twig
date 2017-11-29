@@ -1,0 +1,6 @@
+{{ mark.student.name }} {{ mark.student.surname }}. Notifica di variazione voto.
+Ciao {{ mark.student.name }} {{ mark.student.surname }},
+c'è una variazione nel voto con id {{ mark.id }}. Entra nella tua area riservata per vederla.
+{% if 4 > mark.student.average %}
+*** La tua media voti è {{ 0 + mark.student.average }}. Sei a rischio di bocciatura. ***
+{% endif %}

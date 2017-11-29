@@ -1,0 +1,18 @@
+{% extends ":dashboard:base.html.twig" %}
+
+{% block title %}{{ "app.sendmail_request"|trans }}{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <div class="panel-heading">{{ "app.panel.heading.sendmail_request"|trans({'%student%': student.fullName})|upper }}</div>
+        <div class="panel-body">
+            <p>{{ "app.sendmail_request_message"|trans({'%student%': student.fullName, '%average%': 0 + student.average}) }}</p>
+
+            <a class="btn btn-info btn-outline btn-md btn-loading" data-loading-text="{{ "app.form.sending"|trans }}"
+               href="{{ path('app_dashboard_student_send_mail', {'id': student.id, 'ref': ref}) }}">{{ "app.button.sendmail"|trans }}</a>
+            <i class="fa fa-fw"></i>
+            <a class="btn btn-info btn-outline btn-md"
+               href="{{ ref }}">{{ "app.button.cancel"|trans }}</a>
+        </div>
+    </div>
+{% endblock %}

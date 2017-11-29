@@ -1,0 +1,38 @@
+<div class="panel">
+    <div class="panel-heading">{% block panel_heading %}{% endblock %}</div>
+    <div class="panel-body">
+        <section id="no-more-tables">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th>{{ "app.name"|trans }}</th>
+                    <th>{{ "app.surname"|trans }}</th>
+                    <th>{{ "app.email"|trans }}</th>
+                    {% block th %}{% endblock %}
+                    <th class="text-center">{{ "app.manage"|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td data-title="#" class="text-center"><a
+                                    href="{{ path('app_dashboard_student_edit', {'id': student.id}) }}">{{ student.id }}</a>
+                        </td>
+                        <td data-title="{{ "app.name"|trans }}">{{ student.name }}</td>
+                        <td data-title="{{ "app.surname"|trans }}">{{ student.surname }}</td>
+                        <td data-title="{{ "app.email"|trans }}">{{ student.email }}</td>
+                        {% block td %}{% endblock %}
+                        <td class="text-center">
+                            <a class="btn btn-info btn-outline btn-circle btn-lg m-r-5"
+                               href="{{ path('app_dashboard_student_edit', {'id': student.id}) }}"><i
+                                        class="fa fa-pencil"></i></a>
+                            {% block btn %}{% endblock %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>

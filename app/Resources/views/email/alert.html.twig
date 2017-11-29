@@ -1,0 +1,20 @@
+{% block subject %}
+    {%- autoescape false -%}
+        {{ student.name }} {{ student.surname }}. Avviso media voti.
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block body_text %}
+{%- autoescape false -%}
+Ciao {{ student.name }} {{ student.surname }},
+la tua media voti è {{ 0 + student.average }}. Ti consiglio di studiare di più.
+{%- endautoescape -%}
+{% endblock %}
+
+{% block body_html %}
+    <p>
+        Ciao <strong>{{ student.name }} {{ student.surname }}</strong>,</p>
+    <p style="margin-top: 10px;">
+        la tua media voti è <span style="color:red;">{{ 0 + student.average }}</span>. Ti consiglio di studiare di più.
+    </p>
+{% endblock %}

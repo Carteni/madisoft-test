@@ -1,0 +1,37 @@
+###################################################################
+# Dashboard routes
+###################################################################
+
+app_dashboard_home:
+    path: /
+    defaults: { _controller: AppBundle:Dashboard:home }
+
+app_dashboard_student_edit:
+    path: /edit/{id}
+    defaults: { _controller: AppBundle:Dashboard:studentEdit }
+    requirements:
+        id: '\d+'
+
+app_dashboard_student_new:
+    path: /new
+    defaults: { _controller: AppBundle:Dashboard:studentNew }
+
+app_dashboard_student_send_mail_request:
+    path: /sendmail/request/{id}
+    defaults: { _controller: AppBundle:Dashboard:studentSendMailRequest }
+    requirements:
+        id: '\d+'
+
+app_dashboard_student_send_mail:
+    path: /sendmail/{id}
+    defaults: { _controller: AppBundle:Dashboard:studentSendMail }
+    requirements:
+        id: '\d+'
+
+app_dashboard_summary:
+    path: /summary
+    defaults: { _controller: AppBundle:Dashboard:summary }
+
+app_dashboard_download_report:
+    path: /report/{format}
+    defaults: { _controller: AppBundle:Dashboard:studentReport, format: csv }

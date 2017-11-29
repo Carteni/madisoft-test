@@ -1,0 +1,35 @@
+{% extends ":dashboard:base.html.twig" %}
+
+{% block title %}{{ "app.student"|trans({'%student%':student.fullName})|upper }}{% endblock %}
+
+{% form_theme form _self %}
+
+{% block _student_form_marks_entry_widget %}
+    <div class="row mark-entity">
+        <div class="col-md-3">{{ form_row(form.subject) }}</div>
+        <div class="col-md-2">{{ form_row(form.score) }}</div>
+        <div class="col-md-5">{{ form_row(form.notes) }}</div>
+        <div class="col-md-2 text-center add-mark-container">
+            <a href="#" class="btn btn-info btn-outline btn-circle btn-sm add-new-mark"><i class="fa fa-plus"></i></a>
+            <a href="#" class="btn btn-info btn-outline btn-circle btn-sm btn-alert remove-mark-form"><i
+                        class="fa fa-minus"></i></a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% include ":dashboard:alert_box.html.twig" %}
+
+    {% embed ":dashboard:student_form.html.twig" %}
+        {% block panel_heading %}
+            {{ "app.student"|trans({'%student%':student.fullName})|upper }}
+        {% endblock %}
+    {% endembed %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ preload(asset('build/js/edit.js')) }}"></script>
+{% endblock %}

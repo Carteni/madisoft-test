@@ -1,0 +1,10 @@
+{% extends ":dashboard:base.html.twig" %}
+
+{% block title %}{{ "app.students_list"|trans }}{% endblock %}
+
+{% block content %}
+    {% include ":dashboard:alert_box.html.twig" %}
+    {% embed ":dashboard:students_list.html.twig" %}
+        {% block panel_heading %}{{ "app.panel.heading.students_list"|trans|upper }}{% endblock %}
+    {% endembed %}
+{% endblock %}

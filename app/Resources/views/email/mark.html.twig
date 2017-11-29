@@ -1,0 +1,28 @@
+{% block subject %}
+    {%- autoescape false -%}
+        {{ mark.student.name }} {{ mark.student.surname }}. Notifica di variazione voto.
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block body_text %}
+{%- autoescape false -%}
+Ciao {{ mark.student.name }} {{ mark.student.surname }},
+c'è una variazione nel voto con id {{ mark.id }}. Entra nella tua area riservata per vederla.
+{% if 4 > mark.student.average %}
+    *** La tua media voti è {{ 0 + mark.student.average }}. Sei a rischio di bocciatura. ***
+{% endif %}
+{%- endautoescape -%}
+{% endblock %}
+
+{% block body_html %}
+    <p>
+        Ciao <strong>{{ mark.student.name }} {{ mark.student.surname }}</strong>,</p>
+    <p style="margin-top: 10px;">
+        c'è una variazione nel voto con id {{ mark.id }}. Entra nella tua area riservata per vederla.
+    </p>
+    {% if 4 > mark.student.average %}
+        <p style="margin-top: 10px;">
+            La tua media voti è <span style="color:red;">{{ 0 + mark.student.average }}</span>. Sei a rischio di bocciatura.
+        </p>
+    {% endif %}
+{% endblock %}

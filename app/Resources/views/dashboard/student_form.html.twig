@@ -1,0 +1,48 @@
+<div class="panel">
+    <div class="panel-heading">{% block panel_heading %}{% endblock %}</div>
+    <div class="panel-body">
+
+        {# Form rendering #}
+        {{ form_start(form) }}
+
+        {# Student info #}
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <img src="https://dummyimage.com/200.png/09f/fff"/>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div>{{ form_row(form.name) }}</div>
+                        <div>{{ form_row(form.surname) }}</div>
+                        <div> {{ form_row(form.email) }}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {# Student marks #}
+        <div class="marks" data-prototype="{{ form_widget(form.marks.vars.prototype)|e('html_attr') }}">
+            {% for mark in form.marks %}
+                <div class="row mark-entity">
+                    <div class="mark-date">
+                        <span>{{ mark.vars.value.lastModified|localizeddate('long', 'none') }}</span>
+                    </div>
+                    <div class="col-md-3">{{ form_row(mark.subject) }}</div>
+                    <div class="col-md-2">{{ form_row(mark.score) }}</div>
+                    <div class="col-md-5">{{ form_row(mark.notes) }}</div>
+                    <div class="col-md-2 text-center add-mark-container"></div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <input id="saveStudent" type="submit" data-loading-text="{{ "app.form.saving"|trans }}"
+               autocomplete="off" value="{{ "app.form.save"|trans }}"
+               class="btn btn-info btn-outline btn-loading" />
+        {{ form_end(form) }}
+    </div>
+</div>

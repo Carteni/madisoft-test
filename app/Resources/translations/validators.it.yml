@@ -1,0 +1,9 @@
+app:
+    blank: 'Il valore del campo è obbligatorio'
+    short: 'Il valore del campo è troppo corto (minimo {{ limit }} caratteri)'
+    long: 'Il valore del campo è troppo lungo (massimo {{ limit }} caratteri)'
+    invalid: 'Il valore del campo non è in un formato corretto'
+    score:
+        short: 'Il voto minimo che è possibile assegnare è {{ limit }}'
+        long: 'Il voto massimo che è possibile assegnare è {{ limit }}'
+

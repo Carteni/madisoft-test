@@ -1,0 +1,40 @@
+app:
+    title: 'Registro di Classe'
+    students_list: 'Elenco Studenti'
+    avg_list: 'Statistiche'
+    new_student: 'Nuovo Studente'
+    sendmail_request: 'Richiesta invio email'
+    sendmail: 'Invia Email'
+    sendmail_request_message: |
+        Confermando l'invio, lo studente %student% riceverà un'email di notifica poichè la sua media voti è %average%.
+    student: '%student%'
+    name: Nome
+    surname: Cognome
+    email: Email
+    avg: Media
+    marks: Voti
+    subject: Materia
+    select_subject: 'Seleziona una materia'
+    mark: Voto
+    notes: Note
+    export_in: 'Esporta in'
+    manage: Gestisci
+    panel:
+        heading:
+            students_list: 'Elenco Studenti'
+            avg_list: 'Statistiche'
+            new_student: 'Inserisci un nuovo studente'
+            sendmail_request: 'Invia email di notifica allo studente %student%'
+    button:
+        export: Esporta
+        sendmail: 'Invia Email'
+        cancel: 'Annulla'
+    flash:
+        email_sent: |
+            Un'email di notifica per una media voti inferiore a 6 è stata inviata all'alunno %student%
+        save_success: |
+            Salvataggio dei dati eseguito con successo
+    form:
+        save: Salva
+        saving: Salvataggio...
+        sending: Invio in corso...

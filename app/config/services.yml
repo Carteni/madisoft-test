@@ -1,0 +1,124 @@
+parameters:
+    app.student.class: 'AppBundle:Student'
+    app.subject.class: 'AppBundle:Subject'
+    app.mark.class: 'AppBundle:Mark'
+    app.student.form_type.class: 'AppBundle\Entity\Student'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: false
+
+    # makes classes in src/AppBundle available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    AppBundle\:
+        resource: '../../src/AppBundle/*'
+        exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
+
+    # controllers are imported separately to make sure they're public
+    # and have a tag that allows actions to type-hint services
+    AppBundle\Controller\:
+        resource: '../../src/AppBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
+
+    ###################################################################
+    # Mailer Managers
+    ###################################################################
+    AppBundle\Mailer\MailManagerInterface: '@AppBundle\Mailer\SwiftMailerManager'
+
+
+    ###################################################################
+    # Doctrine EventSubscribers
+    ###################################################################
+    AppBundle\Doctrine\MarkEventSubscriber:
+        arguments:
+            - '@AppBundle\Mailer\MailManagerInterface'
+            - '@event_dispatcher'
+            - '@service_container'
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    ###################################################################
+    # Object Managers
+    ###################################################################
+    AppBundle\Doctrine\ObjectManagerTrait:
+        abstract: true
+        calls:
+            - [setObjectManager, ['@doctrine.orm.entity_manager']]
+
+    AppBundle\Doctrine\StudentManager:
+        parent:  AppBundle\Doctrine\ObjectManagerTrait
+        public: true
+        autowire: false
+        autoconfigure: false
+        calls:
+            - [setClass, ['%app.student.class%']]
+
+    AppBundle\Doctrine\SubjectManager:
+        parent:  AppBundle\Doctrine\ObjectManagerTrait
+        public: true
+        autowire: false
+        autoconfigure: false
+        calls:
+            - [setClass, ['%app.subject.class%']]
+
+    AppBundle\Doctrine\MarkManager:
+        parent:  AppBundle\Doctrine\ObjectManagerTrait
+        public: true
+        autowire: false
+        autoconfigure: false
+        calls:
+            - [setClass, ['%app.mark.class%']]
+
+    AppBundle\Doctrine\StudentManagerInterface: '@AppBundle\Doctrine\StudentManager'
+    AppBundle\Doctrine\SubjectManagerInterface: '@AppBundle\Doctrine\SubjectManager'
+    AppBundle\Doctrine\MarkManagerInterface: '@AppBundle\Doctrine\MarkManager'
+
+
+    ###################################################################
+    # Export Managers
+    ###################################################################
+    AppBundle\Export\ExportDelegatingHandler:
+        arguments: [['@AppBundle\Export\CSVExportStudentsWithAverageDelegate']]
+
+    AppBundle\Export\ExportDelegatingHandlerInterface: '@AppBundle\Export\ExportDelegatingHandler'
+
+
+    ###################################################################
+    # Twig Extensions
+    ###################################################################
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+
+    ###################################################################
+    # Form Factories and Types
+    ###################################################################
+    app.student.form.factory:
+        class: AppBundle\Form\Factory\FormFactory
+        public: true
+        arguments: ['@form.factory', 'student_form', 'AppBundle\Form\Type\StudentType', ['Default'] ]
+
+    AppBundle\Form\Type\StudentType:
+        arguments: ['%app.student.form_type.class%']
+        tags:
+            - { name: form.type }
+
+
+    ###################################################################
+    # Loggers
+    ###################################################################
+    AppBundle\Logger\ShopLogger:
+        arguments: ['@logger']
+        tags:
+            - { name: monolog.logger, channel: shop }
