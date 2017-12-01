@@ -23,7 +23,7 @@ class DashboardControllerTest extends WebTestCase
     /** @var Client */
     private $client;
 
-    public function setUp()
+    public function setUp ()
     {
         $this->client = static::createClient();
     }
@@ -33,7 +33,7 @@ class DashboardControllerTest extends WebTestCase
      *
      * @param $url
      */
-    public function testRoutes($url)
+    public function testRoutes ($url)
     {
         $this->client->request('GET', $url);
 
@@ -46,7 +46,7 @@ class DashboardControllerTest extends WebTestCase
      *
      * @param $url
      */
-    public function testRedirect($url)
+    public function testRedirect ($url)
     {
         $this->client->request('GET', $url);
 
@@ -54,27 +54,21 @@ class DashboardControllerTest extends WebTestCase
                                        ->isRedirect());
     }
 
-    public function testIfZipFileIsDownloaded()
+    public function testIfZipFileIsDownloaded ()
     {
         $this->client->request('GET', '/dashboard/report/csv');
 
         $this->assertSame(200, $this->client->getResponse()
-                                              ->getStatusCode(), 'Wrong status code');
+                                            ->getStatusCode(), 'Wrong status code');
 
-        $this->assertSame(
-            'application/zip',
-            $this->client->getResponse()->headers->get('Content-Type'),
-                            'Wrong content type'
-        );
+        $this->assertSame('application/zip', $this->client->getResponse()->headers->get('Content-Type'),
+                          'Wrong content type');
 
-        $this->assertContains(
-            'studentsWithAverage.zip',
-                              $this->client->getResponse()->headers->get('Content-Disposition'),
-            'Wrong filename'
-        );
+        $this->assertContains('studentsWithAverage.zip',
+                              $this->client->getResponse()->headers->get('Content-Disposition'), 'Wrong filename');
     }
 
-    public function testIfMailSent()
+    public function testIfMailSent ()
     {
         $this->client->enableProfiler();
 
@@ -99,13 +93,13 @@ class DashboardControllerTest extends WebTestCase
         $this->assertContains('Ti consiglio di studiare di più', $message->getBody());
     }
 
-    public function testStudentEditForm()
+    public function testStudentEditForm ()
     {
         $crawler = $this->client->request('GET', 'dashboard/edit/1');
 
         // Current marks.
         $this->assertSame(2, $crawler->filter('div.mark-entity')
-                                       ->count());
+                                     ->count());
 
         $form = $crawler->selectButton('saveStudent')
                         ->form();
@@ -138,13 +132,40 @@ class DashboardControllerTest extends WebTestCase
 
         // Now there are 3 marks.
         $this->assertSame(3, $crawler->filter('.mark-entity')
-                                       ->count());
+                                     ->count());
+    }
+
+    public function testItDeletesEmptyMarksInStudentEditForm ()
+    {
+        $crawler = $this->client->request('GET', 'dashboard/edit/1');
+
+        // Current marks.
+        $this->assertCount(3, $crawler->filter('.mark-entity'));
+
+        $form = $crawler->selectButton('saveStudent')
+                        ->form();
+
+        $values = $form->getPhpValues();
+
+        // Add a new "empty" mark.
+        $values['student_form']['marks'][3]['subject'] = '';
+        $values['student_form']['marks'][3]['score'] = '';
+        $values['student_form']['marks'][3]['notes'] = '';
+
+        $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
+
+        $this->assertTrue($this->client->getResponse()
+                                       ->isRedirect());
+        $crawler = $this->client->followRedirect();
+
+        // Now there are also 3 marks.
+        $this->assertCount(3, $crawler->filter('.mark-entity'));
     }
 
     /**
      * @return array
      */
-    public function urlProvider()
+    public function urlProvider ()
     {
         return [
             ['dashboard/'],
@@ -157,7 +178,7 @@ class DashboardControllerTest extends WebTestCase
     /**
      * @return array
      */
-    public function redirectUrlProvider()
+    public function redirectUrlProvider ()
     {
         return [
             ['/'],
