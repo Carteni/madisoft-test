@@ -35,7 +35,7 @@ class StudentType extends AbstractType
      *
      * @param $class
      */
-    public function __construct($class)
+    public function __construct ($class)
     {
         $this->class = $class;
     }
@@ -43,10 +43,9 @@ class StudentType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(
-        FormBuilderInterface $builder,
-        array $options
-    ) {
+    public function buildForm (FormBuilderInterface $builder,
+        array $options)
+    {
         $builder->add('name', null, [
             'label' => 'app.name',
         ])
@@ -57,44 +56,49 @@ class StudentType extends AbstractType
                     'label' => 'app.email',
                 ])
                 ->add('marks', CollectionType::class, [
-                    'label' => false,
-                    'entry_type' => MarkType::class,
+                    'label'         => false,
+                    'entry_type'    => MarkType::class,
                     'entry_options' => [
-                        'label' => false,
+                        'label'    => false,
+                        'required' => false,
                     ],
-                    'allow_add' => true,
+                    'allow_add'     => true,
+                    'delete_empty'  => true,
                 ]);
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use (
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use
+        (
             $options
         ) {
             $data = $event->getData();
 
             if (isset($data['marks'])) {
-                foreach ($data['marks'] as $key => $mark) {
+
+                // Fix with empty_data
+                /*foreach ($data['marks'] as $key => $mark) {
                     if (0 === strlen(trim(implode('', $mark)))) {
                         unset($data['marks'][$key]);
                     }
+                }*/
+
+                //if (empty($data['marks'])) {
+                //unset($data['marks']);
+
+                /** @var StudentInterface $student */
+                $student = $event->getForm()
+                                 ->getData();
+
+                // Clears the marks collection if exists only ob and empty mark.
+                if (1 === count($student->getMarks()) && empty($student->getMarks()
+                                                                       ->first()
+                                                                       ->getId())
+                ) {
+                    $student->removeAllMarks();
                 }
 
-                if (empty($data['marks'])) {
-                    unset($data['marks']);
-
-                    /** @var StudentInterface $student */
-                    $student = $event->getForm()
-                                     ->getData();
-
-                    // Clears the marks collection if exists only ob and empty mark.
-                    if (1 === count($student->getMarks()) && empty($student->getMarks()
-                                                                           ->get(0)
-                                                                           ->getId())
-                    ) {
-                        $student->removeAllMarks();
-                    }
-
-                    $event->getForm()
-                          ->setData($student);
-                }
+                $event->getForm()
+                      ->setData($student);
+                //}
             }
 
             $event->setData($data);
@@ -104,15 +108,15 @@ class StudentType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions (OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-                                   'data_class' => $this->class,
+                                   'data_class'    => $this->class,
                                    'csrf_token_id' => 'student',
-                                   'attr' => [
+                                   'attr'          => [
                                        'novalidate' => 'novalidate',
                                    ],
-                                   'mode' => 'edit',
+                                   'mode'          => 'edit',
                                ]);
     }
 }
